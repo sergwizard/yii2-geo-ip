@@ -47,7 +47,7 @@ class ResultBase {
      * 
      */
     public function __get($name) {
-        $getter = 'get' . ucfirst($name);
+        $getter = $this->nameCreator($name);
         unset($this->attributes[$name]);
         if (array_key_exists($name, $this->attributes)) {
             return $this->attributes[$name];
@@ -70,4 +70,37 @@ class ResultBase {
     public function __set($name, $value) {
         $this->attributes[$name] = $value;
     }
+    
+    /**
+     * Checks if a property is set, i.e. defined and not null.
+     * will be implicitly called when executing `isset($object->property)`
+     *
+     * Note that if the property is not defined, false will be returned.
+     * @param string $name the property name
+     * @return bool whether the named property is set (not null).
+     * 
+     */
+    public function __isset($name)
+    {
+        $getter = 'get' . $name;
+        if (method_exists($this, $getter)) {
+            return $this->$getter() !== null;
+        } else {
+            return false;
+        }
+    }
+    
+    private function nameCreator($name)
+    {
+        $array = explode ( "_", $name );
+        $string = '';
+        
+        foreach($array as $item){
+            $string .= ucfirst($item);
+        }
+        
+        return 'get' . $string;
+    }
+    
+    
 }
