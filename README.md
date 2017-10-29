@@ -151,7 +151,7 @@ $ip->country->geoname_id;//int 6252001
 $ip->country->iso_code;//string 'US'
 
 
-$ip->city->geoname_id;int 5099836
+$ip->city->geoname_id;//int 5099836
 $ip->city->names->en;//string 'Jersey City'
 $ip->city->names->ru;//string 'Джерси-Сити'
 
